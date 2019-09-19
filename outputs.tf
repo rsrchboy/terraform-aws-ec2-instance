@@ -1,9 +1,6 @@
 output "public_ip" {
   description = "Public IP of instance (or EIP)"
-  value = join("", [
-    join("", aws_eip.default.*.public_ip),
-    join("", aws_instance.default.*.public_ip)
-  ])
+  value = var.assign_eip_address ? join("", aws_eip.default.*.public_ip) : join("", aws_instance.default.*.public_ip)
 }
 
 output "private_ip" {
