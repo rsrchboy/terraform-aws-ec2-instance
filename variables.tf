@@ -293,3 +293,21 @@ variable "instance_profile" {
   description = "A pre-defined profile to attach to the instance (default is to build our own)"
   default     = ""
 }
+
+variable "additional_role_tags" {
+    type        = map(string)
+    description = "Additional tags for the created role (meaningless if `instance_profile` is set)"
+    default     = {}
+}
+
+variable "role_path" {
+    type        = string
+    description = "Path for the created role (see `aws_iam_role / path`)"
+    default     = "/"
+}
+
+variable "role_max_session_duration" {
+    type        = number
+    description = "Maxiumum session duration of the created role (set to `0` for default)"
+    default     = 0
+}

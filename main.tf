@@ -97,9 +97,14 @@ resource "aws_iam_instance_profile" "default" {
 resource "aws_iam_role" "default" {
   count                = local.instance_profile_count
   name                 = module.label.id
-  path                 = "/"
+  path                 = var.role_path
   assume_role_policy   = data.aws_iam_policy_document.default.json
   permissions_boundary = var.permissions_boundary_arn
+  tags = merge(
+    module.label.tags,
+    var.additional_role_tags,
+  )
+  max_session_duration = var.role_max_session_duration > 0 ? var.role_max_session_duration : null
 }
 
 resource "aws_instance" "default" {
