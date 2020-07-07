@@ -141,14 +141,20 @@ resource "aws_instance" "default" {
     delete_on_termination = var.delete_on_termination
   }
 
-  tags = module.label.tags
+  tags = merge(
+    module.label.tags,
+    var.additional_instance_tags,
+  )
 }
 
 resource "aws_eip" "default" {
   count             = var.associate_public_ip_address && var.assign_eip_address && var.instance_enabled ? 1 : 0
   network_interface = join("", aws_instance.default.*.primary_network_interface_id)
   vpc               = true
-  tags              = module.label.tags
+  tags              = merge(
+    module.label.tags,
+    var.additional_eip_tags,
+  )
 }
 
 data "null_data_source" "eip" {
@@ -163,7 +169,10 @@ resource "aws_ebs_volume" "default" {
   size              = var.ebs_volume_size
   iops              = local.ebs_iops
   type              = var.ebs_volume_type
-  tags              = module.label.tags
+  tags              = merge(
+    module.label.tags,
+    var.additional_ebs_volume_tags,
+  )
 }
 
 resource "aws_volume_attachment" "default" {

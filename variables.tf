@@ -1,3 +1,21 @@
+variable "additional_instance_tags" {
+    type        = map(string)
+    description = "Additional tags for the instance"
+    default     = {}
+}
+
+variable "additional_ebs_volume_tags" {
+    type        = map(string)
+    description = "Additional tags for the created EBS volume"
+    default     = {}
+}
+
+variable "additional_eip_tags" {
+    type        = map(string)
+    description = "Additional tags for any allocated EIP"
+    default     = {}
+}
+
 variable "ssh_key_pair" {
   type        = string
   description = "SSH key pair to be provisioned on the instance"
